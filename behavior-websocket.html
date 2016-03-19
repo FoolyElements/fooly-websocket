@@ -1,0 +1,11 @@
+<script src="socket.io.js"></script>
+<script>
+    WebSocketBehaviors = {
+        connect: function(channel){
+            var socket = io(this.url);
+            socket.on(channel, function(data){
+                this.fire("fooly-ws-" + channel, {response: data});
+            });
+        }
+    };
+</script>
