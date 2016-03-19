@@ -1,0 +1,9 @@
+# sources
+bower_components
+
+# secutiry data
+*.developerprofile
+*.p12
+
+# OS  and npm files
+.DS_Store
