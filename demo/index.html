@@ -19,29 +19,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <body unresolved>
 
     <p>An example of <code>&lt;fooly-websocket&gt;</code>:</p>
-
-    <p>Make words! <button id="saybtn">Say Something</button></p>
-    <p>Make lasers! <button id="laserbtn">Fire lasers</button></p>
-
-    <fooly-websocket author='{"name": "Lord Meowser", "image": "http://lorempixel.com/g/300/200/cats/"}' fancy>
-      <h2>Hello fooly-websocket</h2>
+    <p>You need to set socket backend as socket.io. In my example this is localhost:5000</p>
+    <fooly-websocket channels="abc" url="http://localhost:5000">
     </fooly-websocket>
 
     <script>
       var seedElement = document.querySelector('fooly-websocket');
-
-      document.querySelector('#saybtn').addEventListener('click', function() {
-        alert(seedElement.sayHello('Hallo!'));
-      });
-
-      document.querySelector('#laserbtn').addEventListener('click', function() {
-        seedElement.fireLasers();
-      });
-
-      document.addEventListener("fooly-websocket-lasers", function(e) {
-        console.log(e.detail.sound);
-      });
-
     </script>
 
   </body>

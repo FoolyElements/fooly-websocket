@@ -24,8 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- You can use the document as a place to set up your fixtures. -->
     <test-fixture id="fooly-websocket-fixture">
       <template>
-        <fooly-websocket>
-          <h2>fooly-websocket</h2>
+        <fooly-websocket channels="one, two, 56cb862599973e1e144fb445" url="http://localhost:5000">
         </fooly-websocket>
       </template>
     </test-fixture>
@@ -38,8 +37,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           myEl = fixture('fooly-websocket-fixture');
         });
 
-        test('show myEl', function() {
-            console.log(myEl);
+        test('test normalize channels', function() {
+            expect(myEl._channels.length).to.be.equal(3);
+            expect(myEl._channels[0]).to.be.equal('one');
+            expect(myEl._channels[1]).to.be.equal('two');
+        });
+          
+        test('connection with channel', function(done){
+           myEl.addEventListener('fooly-ws-56cb862599973e1e144fb445', function(evt){
+               expect(evt.detail.response[0].value.body).to.be.equal("testing");
+               done();
+           });
+           myEl.on();
         });
 
       });

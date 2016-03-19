@@ -2,9 +2,10 @@
 <script>
     WebSocketBehaviors = {
         connect: function(channel){
+            var self = this;
             var socket = io(this.url);
             socket.on(channel, function(data){
-                this.fire("fooly-ws-" + channel, {response: data});
+                self.fire("fooly-ws-" + channel, {response: data});
             });
         }
     };

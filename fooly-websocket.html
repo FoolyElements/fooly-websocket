@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="behavior-websocket.html">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -19,9 +20,14 @@ Example:
 
 Example:
 
-    <fooly-websocket>
-      <h2>Hello fooly-websocket</h2>
+    <fooly-websocket channels="abc" url="http://localhost:8000">
     </fooly-websocket>
+    <script>
+        var foolyWebsocket = document.querySelector('fooly-websocket');
+        foolyWebsocket.addEventListener('fooly-ws-abc', function(evt){
+            console.log(evt.detail.response);
+        }); 
+    </script>
 
 @demo demo/index.html
 @hero hero.svg
@@ -31,13 +37,23 @@ Example:
   <script>
     Polymer({
       is: 'fooly-websocket',
+      behaviors: [WebSocketBehaviors],
       properties: {
-        /**
-         * `fancy` indicates that the element should don a monocle and tophat,
-         * while checking its pocket watch.
-         */
-        fancy: Boolean,
-        url: String
+        /** 
+        * `url` is the new URL schema for WebSocket connections. This 
+        * encapsulates ws or wss. 
+        */
+        url: String,
+        /** 
+        * `channels` receives one or many string separated by comma and 
+        * prepare to be used by `on` method.
+        * e.g: 'abc, yxz, channelOne, channelTwo'.
+        */
+        channels: {
+          type: String,
+          observer: "_changedChannels"
+        },
+        _channels: Array
       },
 
       // Element Lifecycle
@@ -68,18 +84,34 @@ Example:
       },
 
       // Element Behavior
-
+      /**
+       * `on` will to connect all channels defined in `channels` property.
+       */        
+      on: function() {
+          if (channels == "undefined") {
+              return;
+          }
+          var channels = this._channels;
+          this._connectChannels(channels);
+      },
       /**
        * Sometimes it's just nice to say hi.
        *
        * @param {string} greeting A positive greeting.
        * @return {string} The full greeting.
        */
-       channels: function(listChannels){
+       _connectChannels: function(listChannels){
            var self = this;
            for (var i=0; i < listChannels.length; i++) {
                self.connect(listChannels[i]);
            }
+       },
+       _changedChannels: function() {
+           var channels = this.channels.split(",");
+           channels.forEach(function(elem, idx, arr) {
+              arr[idx] = elem.trim(); 
+           });
+           this._channels = channels;
        }
     });
   </script>
