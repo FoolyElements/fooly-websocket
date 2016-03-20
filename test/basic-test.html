@@ -43,6 +43,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             expect(myEl._channels[1]).to.be.equal('two');
         });
           
+        test('connection with updated', function(done){
+           myEl.addEventListener('fooly-ws-updated', function(evt){
+               expect(evt.detail.response[0].value.body).to.be.equal("testing");
+               done();
+           });
+           myEl.on();
+        });          
+
+          
         test('connection with channel', function(done){
            myEl.addEventListener('fooly-ws-56cb862599973e1e144fb445', function(evt){
                expect(evt.detail.response[0].value.body).to.be.equal("testing");
@@ -50,6 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            });
            myEl.on();
         });
+          
 
       });
     </script>

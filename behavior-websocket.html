@@ -6,6 +6,7 @@
             var socket = io(this.url);
             socket.on(channel, function(data){
                 self.fire("fooly-ws-" + channel, {response: data});
+                self.fire("fooly-ws-updated", {response: data});
             });
         }
     };
